@@ -1,15 +1,17 @@
 import React, {FC} from "react";
 import {HeaderLogo, HeaderMenu, HeaderTitle, StyledHeader} from "./HeadersStyled";
+import Link from "next/link";
 
 
  const Header : FC = () =>
      {
+
          return <StyledHeader>
-        <HeaderLogo src="logo.ico " alt="logo"/>
-        <HeaderTitle>Simple Blog</HeaderTitle>
+        <Link href={"/"}><a><HeaderLogo src="logo.ico " alt="logo"/>
+            <HeaderTitle>Simple Blog</HeaderTitle></a></Link>
         <HeaderMenu>
-            <div>Read</div>
-            <div>Write</div>
+            <div><Link href={"/"}><a>Read</a></Link></div>
+            <div><Link href={"/"}><a>Write</a></Link></div>
         </HeaderMenu>
 
     </StyledHeader>

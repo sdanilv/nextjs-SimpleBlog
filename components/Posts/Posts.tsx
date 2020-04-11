@@ -4,7 +4,8 @@ import Post from "./Post/Post";
 import {PostType} from "../../reducers/PostsReducer";
 
 const PostsContainer = styled.div`
-width:100%
+width:100%;
+display: flex;
 `;
 
 const PostsComponent :FC<{posts: Array<PostType>}>  = ({posts}) => {

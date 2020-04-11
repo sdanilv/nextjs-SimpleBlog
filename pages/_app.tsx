@@ -1,27 +1,18 @@
 import React from "react";
 import App, {AppContext} from "next/app";
-import withRedux, {MakeStore, ReduxWrapperAppProps} from "next-redux-wrapper";
-import {DefaultTheme, ThemeProvider} from "styled-components";
-import {applyMiddleware, createStore} from "redux";
-import {reducers, RootState} from "../reducers/store";
+import withRedux, {ReduxWrapperAppProps} from "next-redux-wrapper";
+import {makeStore, RootState} from "../reducers/store";
 import {Provider} from "react-redux";
-import thunkMiddleware, {ThunkMiddleware} from "redux-thunk";
-import {ActionsTypes} from "../reducers/PostsReducer";
+import GlobalStyle from "./GlobalStyle";
+import Head from "next/dist/next-server/lib/head";
+import Header from "../components/Headers/Headers";
 
 /**
  * @param initialState The store"s initial state (on the client side, the state of the server-side store is passed here)
  */
-const makeStore: MakeStore = (initialState: RootState) => {
-    return createStore(reducers, initialState,  applyMiddleware(thunkMiddleware as ThunkMiddleware<RootState, ActionsTypes>))
-};
-
-const theme: DefaultTheme = {
-    colors: {
-        main: "#0070f3",
-        secondary: "#0070f3"
-    },
-    borderRadius: "5px"
-};
+// const makeStore: MakeStore = (initialState: RootState) => {
+//     return createStore(reducers, initialState,  applyMiddleware(thunkMiddleware as ThunkMiddleware<RootState, ActionsTypes>))
+// };
 
 class MyApp extends App<ReduxWrapperAppProps<RootState>> {
     static async getInitialProps({Component, ctx}: AppContext) {
@@ -32,11 +23,17 @@ class MyApp extends App<ReduxWrapperAppProps<RootState>> {
     render() {
         const {Component, pageProps, store} = this.props;
         return (
-            <ThemeProvider theme={theme}>
+
                 <Provider store={store}>
+                    <GlobalStyle/>
+                    <Head >
+                        <title>Simple Blog </title>
+                        <link rel="icon" href="/logo.ico"/>
+                    </Head>
+                    <Header/>
                     <Component {...pageProps} />
                 </Provider>
-            </ThemeProvider>
+
         )
     }
 }

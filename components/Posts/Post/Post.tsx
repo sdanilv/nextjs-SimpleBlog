@@ -1,29 +1,17 @@
 import React, {FC} from "react";
-import styled from "styled-components";
-import Router from "next/router";
 
-const StyledPost = styled.div`
-width: 40vw;
-height: 80vh;
-margin: 4vw;
-background: green;
-display: inline-block;
-`;
-const PostTitle = styled.h3`
-margin: 20px;
-`;
-const PostBody = styled.div`
-margin: 20px;
-`;
+import Router from "next/router";
+import {PostBody, PostTitle, StyledPost} from "./StyledPost";
 
 type Props = {
-    id:number,
+    id: string,
     title: string,
     body: string
 }
 const Post: FC<Props> = ({id, body, title}) => {
+    const toPostCallback = () => Router.push('/posts/[postId]', `/posts/${id}`);
     return (
-        <StyledPost onClick={() => Router.push('/post/[pid]', `/post/${id}`)}>
+        <StyledPost onClick={toPostCallback}>
             <PostTitle>
                 {title}
             </PostTitle>

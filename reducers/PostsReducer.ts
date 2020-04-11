@@ -63,3 +63,26 @@ export  const getPost = (): ThunkActionType => async (dispatch) => {
     dispatch(getPostsAC(posts));
 };
 
+const retrievePostAC = (id:string, comments: Array<Comment>): ActionsTypes => ({type: POST_RETRIEVE, id, comments});
+export  const retrievePost = (postId:string): ThunkActionType => async (dispatch) => {
+    const post = await PostsApi.retrievePost(postId);
+    dispatch(retrievePostAC(post.id, post.comments ));
+};
+const deletePostAC = (id:string): ActionsTypes => ({type: POST_DELETE, id});
+export  const deletePost = (postId:string): ThunkActionType => async (dispatch) => {
+     await PostsApi.deletePost(postId);
+    dispatch(deletePostAC(postId));
+};
+
+const addPostAC = (post:PostType): ActionsTypes => ({type: POST_ADD, post});
+export  const addPost = (post:PostType): ThunkActionType => async (dispatch) => {
+    const receivedPost = await PostsApi.addPost(post.title, post.body );
+    dispatch(addPostAC(receivedPost));
+};
+
+const addCommentAC = (id:string, comment: Comment): ActionsTypes => ({type: COMMENT_ADD, id, comment});
+export  const addComment = (postId:string, comment: string): ThunkActionType => async (dispatch) => {
+    const receivedComment= await PostsApi.addComment(postId, comment);
+    dispatch(addCommentAC(receivedComment.postId, receivedComment ));
+};
+
