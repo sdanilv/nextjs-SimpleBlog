@@ -28,7 +28,8 @@ type ThunkActionType = ThunkAction<void, RootState, {}, ActionsTypes>;
 
 
 export const initialPostsState = {posts: []};
-export const postsReducer = (state = initialPostsState, action: ActionsTypes) => {
+
+export const postsReducer = (state = initialPostsState, action: ActionsTypes):{posts:Array<PostType>} => {
     switch (action.type) {
         case LOAD_POSTS:
             return {...state, posts: action.posts};
@@ -39,6 +40,7 @@ export const postsReducer = (state = initialPostsState, action: ActionsTypes) =>
         case POST_RETRIEVE:
             return {
                 ...state, posts: state.posts.map((post) => {
+                    // debugger
                     if (post.id === action.id)
                         post.comments = action.comments;
                     return post
@@ -75,8 +77,8 @@ export  const deletePost = (postId:string): ThunkActionType => async (dispatch) 
 };
 
 const addPostAC = (post:PostType): ActionsTypes => ({type: POST_ADD, post});
-export  const addPost = (post:PostType): ThunkActionType => async (dispatch) => {
-    const receivedPost = await PostsApi.addPost(post.title, post.body );
+export  const addPost = (title:string, body:string): ThunkActionType => async (dispatch) => {
+    const receivedPost = await PostsApi.addPost(title, body );
     dispatch(addPostAC(receivedPost));
 };
 

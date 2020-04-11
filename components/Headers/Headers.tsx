@@ -11,7 +11,7 @@ import Link from "next/link";
             <HeaderTitle>Simple Blog</HeaderTitle></a></Link>
         <HeaderMenu>
             <div><Link href={"/"}><a>Read</a></Link></div>
-            <div><Link href={"/"}><a>Write</a></Link></div>
+            <div><Link href={"/posts/new"}><a>Write</a></Link></div>
         </HeaderMenu>
 
     </StyledHeader>

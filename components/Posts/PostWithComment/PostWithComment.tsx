@@ -1,30 +1,43 @@
-import React, {FC} from "react";
+import React, {FC, useState} from "react";
 import styled from "styled-components";
-import {PostType} from "../../../reducers/PostsReducer";
+import {addComment, PostType} from "../../../reducers/PostsReducer";
+import {
+    AddCommentButton,
+    AddCommentTextArea,
+    Comments,
+    Comment,
+    PostBody,
+    PostTitle,
+    StyledPost
+} from "./PostWithCommentStyles";
 
-const StyledPost = styled.div`
 
-`;
-const PostTitle = styled.h2`
-margin: 20px auto;
-text-align: center;
-`;
-const PostBody = styled.div`
-margin: 50px ;
-`;
-const Comments = styled.div``;
-const Comment = styled.div``;
+type AddCommentType = { addComments: (comments: string) => void }
+const PostWithComment: FC<PostType & AddCommentType> = ({title, body, comments, addComments}) => {
+// debugger;
+    const [comment, setComment] = useState("");
 
-const PostWithComment :FC<PostType> = ({title, body, comments}) => {
-    return<StyledPost>
+    const changeCommentHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setComment(e.target.value)
+    };
+    const SendCommentHandler = () => {
+        addComments(comment);
+        setComment("");
+
+    };
+
+    return <StyledPost>
         <PostTitle>
             {title}
         </PostTitle>
         <PostBody>
             {body}
         </PostBody>
+        {comments ? comments.length : 0} comments
+        <AddCommentTextArea rows={10} name="comment" onChange={changeCommentHandler} value={comment}/>
+        <AddCommentButton onClick={SendCommentHandler}> Send </AddCommentButton>
         <Comments>
-            {comments&& comments.map(comment => <Comment>{comment}</Comment> )}
+            {comments!! && comments.map(comment => <Comment key ={comment.id}>{comment.body}</Comment>)}
         </Comments>
     </StyledPost>
 };

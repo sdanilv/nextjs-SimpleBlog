@@ -1,22 +1,39 @@
-import React, {FC, useEffect} from "react";
+import React, {FC, useEffect, useState} from "react";
 
-import {useDispatch, useSelector} from "react-redux";
+import {connect, useDispatch, useSelector, useStore} from "react-redux";
 
-import {PostType, retrievePost} from "../../../reducers/PostsReducer";
+import {addComment, PostType, retrievePost} from "../../../reducers/PostsReducer";
 import {RootState} from "../../../reducers/store";
 import PostWithComment from "./PostWithComment";
+import {createSelector} from "reselect";
 
 
-const PostWithCommentContainer: FC<{id:string}> = ({id}) => {
+const PostWithCommentContainer: FC<any> = (props) => {
+    const [loading, setLoading] = useState(true);
+    console.log(props.posts);
+    // debugger;
+    const addComments = (comment: string) => {
+        // dispatch(addComment(id, comment))
+        props.newComment(props.id, comment);
+    };
     const dispatch = useDispatch();
+    // const retrievePostD = async () => await dispatch(retrievePost(id));
     useEffect(() => {
-        dispatch(retrievePost(id));
+     props.retrievePost(props.id);
     }, []);
+    // const post = useSelector<RootState, PostType>(createSelector(
+    //     (state) => state.Posts.posts,
+    //     posts => posts.find(post => post.id === id)));
+    // // debugger
+    // if (loading)
+    //     return <>Loading...</>
+    const post =  props.posts.find(post => post.id === props.id);
 
+    return <PostWithComment addComments={addComments} {...post}/>
 
-    const post = useSelector<RootState, PostType>((state) => state.Posts.posts.find(post => post.id===id));
-
-    return <PostWithComment {...post}/>
 };
+const mapStateToProps = (state) => ({
+    posts: state.Posts.posts,
+});
 
-export default PostWithCommentContainer;
+export default connect(mapStateToProps, {newComment: addComment, retrievePost})(PostWithCommentContainer);

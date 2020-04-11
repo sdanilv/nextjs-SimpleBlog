@@ -13,7 +13,7 @@ export const PostsApi = {
         return posts.data;
     },
     retrievePost: async (postId: string) => {
-        const post = await axiosInstance.get<PostType>(`posts/${postId}?_embed=comment`);
+        const post = await axiosInstance.get<PostType>(`posts/${postId}?_embed=comments`);
         return post.data;
     },
     addPost: async (title: string, body: string) => {
@@ -28,7 +28,7 @@ export const PostsApi = {
         const posts = await axiosInstance.delete(`posts/${postId}`);
     },
     addComment: async (postId: string, body: string) => {
-        const posts = await axiosInstance.put("comment", {postId, body});
+        const posts = await axiosInstance.post("comments", {postId, body});
         return posts.data;
     }
 };
