@@ -6,6 +6,7 @@ const LOAD_POSTS = "POSTS/LOAD_POSTS";
 const POST_ADD = "POSTS/POST_ADD";
 const POST_DELETE = "POSTS/POST_DELETE";
 const POST_RETRIEVE = "POSTS/POST_GET";
+const POST_UPDATE = "POSTS/POST_UPDATE";
 const COMMENT_ADD = "POSTS/COMMENT_ADD";
 
 type Action<T, K = {}> = { type: T } & K;
@@ -23,13 +24,14 @@ export type ActionsTypes = Action<typeof LOAD_POSTS, { posts: Array<PostType> }>
     Action<typeof POST_ADD, { post: PostType }> |
     Action<typeof POST_DELETE, { id: string }> |
     Action<typeof POST_RETRIEVE, { id: string, comments: Array<Comment> }> |
-    Action<typeof COMMENT_ADD, { id: string, comment: Comment }>
+    Action<typeof COMMENT_ADD, { id: string, comment: Comment }> |
+    Action<typeof POST_UPDATE, { postId: string, title: string, body: string }>
 type ThunkActionType = ThunkAction<void, RootState, {}, ActionsTypes>;
 
 
 export const initialPostsState = {posts: []};
 
-export const postsReducer = (state = initialPostsState, action: ActionsTypes):{posts:Array<PostType>} => {
+export const postsReducer = (state = initialPostsState, action: ActionsTypes): { posts: Array<PostType> } => {
     switch (action.type) {
         case LOAD_POSTS:
             return {...state, posts: action.posts};
@@ -37,6 +39,14 @@ export const postsReducer = (state = initialPostsState, action: ActionsTypes):{p
             return {...state, posts: [...state.posts, action.post]};
         case POST_DELETE:
             return {...state, posts: state.posts.filter((post) => post.id !== action.id)};
+        case POST_UPDATE:
+            return {
+                ...state, posts: state.posts.map(post => {
+                    if (post.id === action.postId)
+                        post = {...post, title: action.title, body: action.body};
+                    return post
+                })
+            };
         case POST_RETRIEVE:
             return {
                 ...state, posts: state.posts.map((post) => {
@@ -60,31 +70,36 @@ export const postsReducer = (state = initialPostsState, action: ActionsTypes):{p
 };
 
 const getPostsAC = (posts: Array<PostType>): ActionsTypes => ({type: LOAD_POSTS, posts});
-export  const getPost = (): ThunkActionType => async (dispatch) => {
+export const getPost = (): ThunkActionType => async (dispatch) => {
     const posts = await PostsApi.getPosts();
     dispatch(getPostsAC(posts));
 };
 
-const retrievePostAC = (id:string, comments: Array<Comment>): ActionsTypes => ({type: POST_RETRIEVE, id, comments});
-export  const retrievePost = (postId:string): ThunkActionType => async (dispatch) => {
+const retrievePostAC = (id: string, comments: Array<Comment>): ActionsTypes => ({type: POST_RETRIEVE, id, comments});
+export const retrievePost = (postId: string): ThunkActionType => async (dispatch) => {
     const post = await PostsApi.retrievePost(postId);
-    dispatch(retrievePostAC(post.id, post.comments ));
+    dispatch(retrievePostAC(post.id, post.comments));
 };
-const deletePostAC = (id:string): ActionsTypes => ({type: POST_DELETE, id});
-export  const deletePost = (postId:string): ThunkActionType => async (dispatch) => {
-     await PostsApi.deletePost(postId);
+const deletePostAC = (id: string): ActionsTypes => ({type: POST_DELETE, id});
+export const deletePost = (postId: string): ThunkActionType => async (dispatch) => {
+    await PostsApi.deletePost(postId);
     dispatch(deletePostAC(postId));
 };
 
-const addPostAC = (post:PostType): ActionsTypes => ({type: POST_ADD, post});
-export  const addPost = (title:string, body:string): ThunkActionType => async (dispatch) => {
-    const receivedPost = await PostsApi.addPost(title, body );
+const addPostAC = (post: PostType): ActionsTypes => ({type: POST_ADD, post});
+export const addPost = (title: string, body: string): ThunkActionType => async (dispatch) => {
+    const receivedPost = await PostsApi.addPost(title, body);
     dispatch(addPostAC(receivedPost));
 };
 
-const addCommentAC = (id:string, comment: Comment): ActionsTypes => ({type: COMMENT_ADD, id, comment});
-export  const addComment = (postId:string, comment: string): ThunkActionType => async (dispatch) => {
-    const receivedComment= await PostsApi.addComment(postId, comment);
-    dispatch(addCommentAC(receivedComment.postId, receivedComment ));
+const addCommentAC = (id: string, comment: Comment): ActionsTypes => ({type: COMMENT_ADD, id, comment});
+export const addComment = (postId: string, comment: string): ThunkActionType => async (dispatch) => {
+    const receivedComment = await PostsApi.addComment(postId, comment);
+    dispatch(addCommentAC(receivedComment.postId, receivedComment));
 };
 
+const changePostAC = (postId: string, title: string, body: string): ActionsTypes => ({type: POST_UPDATE, postId, title, body});
+export const changePost = (postId: string, title: string, body: string): ThunkActionType => async (dispatch) => {
+    const receivedPost = await PostsApi.changePost(postId, title, body);
+    dispatch(changePostAC(receivedPost.id, receivedPost.title, receivedPost.body));
+};

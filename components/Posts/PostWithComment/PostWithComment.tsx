@@ -10,12 +10,18 @@ import {
     PostTitle,
     StyledPost
 } from "./PostWithCommentStyles";
+import TemplatePost from "../PostTamplate/TemplatePost";
 
 
-type AddCommentType = { addComments: (comments: string) => void }
-const PostWithComment: FC<PostType & AddCommentType> = ({title, body, comments, addComments}) => {
+
+type Props = {
+    addComments: (comments: string) => void,
+    changePost: ( title: string, body: string) => void } & PostType
+const PostWithComment: FC<Props> = ({title, body, comments, addComments, changePost}) => {
 // debugger;
     const [comment, setComment] = useState("");
+    const [editable, setEditable] = useState(true);
+
 
     const changeCommentHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setComment(e.target.value)
@@ -23,8 +29,10 @@ const PostWithComment: FC<PostType & AddCommentType> = ({title, body, comments, 
     const SendCommentHandler = () => {
         addComments(comment);
         setComment("");
-
     };
+
+    if (editable)
+        return < TemplatePost callback={changePost} title={title} body={body}/>;
 
     return <StyledPost>
         <PostTitle>
@@ -37,7 +45,7 @@ const PostWithComment: FC<PostType & AddCommentType> = ({title, body, comments, 
         <AddCommentTextArea rows={10} name="comment" onChange={changeCommentHandler} value={comment}/>
         <AddCommentButton onClick={SendCommentHandler}> Send </AddCommentButton>
         <Comments>
-            {comments!! && comments.map(comment => <Comment key ={comment.id}>{comment.body}</Comment>)}
+            {comments!! && comments.map(comment => <Comment key={comment.id}>{comment.body}</Comment>)}
         </Comments>
     </StyledPost>
 };

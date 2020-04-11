@@ -21,7 +21,7 @@ export const PostsApi = {
         return post.data;
     },
     changePost: async (postId: string, title: string, body: string) => {
-        const post = await axiosInstance.post<PostType>(`posts/${postId}`, {title, body});
+        const post = await axiosInstance.put<PostType>(`posts/${postId}`, {title, body});
         return post.data;
     },
     deletePost: async (postId: string) => {
