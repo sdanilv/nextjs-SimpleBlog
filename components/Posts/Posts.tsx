@@ -1,17 +1,15 @@
 import React, {FC} from "react";
 import styled from "styled-components";
 import Post from "./Post/Post";
+import {PostType} from "../../reducers/PostsReducer";
 
 const PostsContainer = styled.div`
 width:100%
 `;
 
-const PostsComponent :FC<any>  = ({posts}) => {
+const PostsComponent :FC<{posts: Array<PostType>}>  = ({posts}) => {
     return <PostsContainer>
-<Post id={posts} title={"Sunt aut facere repellat provident occaecati "} body={"Quia et suscipit suscipit recusandae consequuntur" +
-" expedita et cum reprehenderit molestiae ut ut quas totam"+
-    "nostrum rerum est autem sunt rem eveniet architecto"} />
-
+        {posts.map(post => <Post key={post.id} id={post.id} title={post.title} body={post.body} />)}
     </PostsContainer>
 };
 

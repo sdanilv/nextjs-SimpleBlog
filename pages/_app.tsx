@@ -3,14 +3,14 @@ import App, {AppContext} from "next/app";
 import withRedux, {MakeStore, ReduxWrapperAppProps} from "next-redux-wrapper";
 import {DefaultTheme, ThemeProvider} from "styled-components";
 import {createStore} from "redux";
-import {reducer, RootState} from "../reducers/store";
+import {reducers, RootState} from "../reducers/store";
 import {Provider} from "react-redux";
 
 /**
  * @param initialState The store"s initial state (on the client side, the state of the server-side store is passed here)
  */
 const makeStore: MakeStore = (initialState: RootState) => {
-    return createStore(reducer, initialState);
+    return createStore(reducers, initialState);
 };
 
 const theme: DefaultTheme = {
@@ -24,7 +24,6 @@ const theme: DefaultTheme = {
 class MyApp extends App<ReduxWrapperAppProps<RootState>> {
     static async getInitialProps({Component, ctx}: AppContext) {
         const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
-
         return {pageProps};
     }
 

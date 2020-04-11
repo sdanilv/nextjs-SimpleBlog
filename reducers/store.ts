@@ -1,24 +1,14 @@
-import React from "react";
-import {applyMiddleware, createStore} from "redux";
+import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunkMiddleware from "redux-thunk"
-import { Action } from 'redux';
+import {initialPostsState, postsReducer} from "./PostsReducer";
 
-interface FooAction extends Action<'POST_GET'| 'POST_ADD'> {
-    payload: string;
-}
+export const reducers = combineReducers({
+    Posts: postsReducer
+});
 
-const initialState = {foo: ''};
-export const reducer = (state = initialState, action: FooAction) => {
-    switch (action.type) {
-        case 'POST_GET':
-            return {...state, foo: action.payload};
-        case 'POST_ADD':
-            return {...state, foo: action.payload};
-        default:
-            return state
-    }
-};
-export type RootState = ReturnType<typeof reducer>;
+const initialState = {Posts: initialPostsState};
+
+export type RootState = ReturnType<typeof reducers>;
 export const makeStore = (state = initialState) => {
-    return createStore(reducer, state, applyMiddleware(thunkMiddleware));
+    return createStore(reducers, state, applyMiddleware(thunkMiddleware));
 };
