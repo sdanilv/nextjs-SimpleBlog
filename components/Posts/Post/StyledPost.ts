@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const StyledPost = styled.div`
-width: 45%;
+width: 40%;
 height: 60vh;
 margin: 4vw;
 background: lightgray;

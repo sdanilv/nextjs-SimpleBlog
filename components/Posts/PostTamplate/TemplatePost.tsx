@@ -1,10 +1,6 @@
 import React, {FC, useState} from "react";
-
-import Router from "next/router";
-
-import {PostType} from "../../../reducers/PostsReducer";
-import styled from "styled-components";
 import {SubmitPostButton, TemplatePostBody, TemplatePostTitle, TemplatePostPost} from "./TemplatePostStyles";
+import Link from "next/link";
 
 
 type Props = { callback: (title: string, body: string) => void, title?: string, body?: string }
@@ -32,7 +28,7 @@ const TemplatePost: FC<Props> = ({callback, title = "", body = "",}) => {
             <TemplatePostTitle value={titleValue} onChange={changeTitleHandler}/>
             Post:
             <TemplatePostBody name={"body"} rows={10} value={bodyValue} onChange={changeBodyHandler}/>
-            <SubmitPostButton onClick={submitPostHandler}> Send </SubmitPostButton>
+            <Link href={"/"}><a><SubmitPostButton onClick={submitPostHandler}> Send </SubmitPostButton></a></Link>
         </TemplatePostPost>
     )
 };

@@ -17,7 +17,12 @@ padding: 10px;
 }
 `;
 export const Comments = styled.div``;
-export const Comment = styled.div``;
+export const Comment = styled.div`
+margin: 10px;
+padding: 5px;
+background: #f0fcff;
+border-radius: 10px;
+`;
 export const AddCommentTextArea = styled.textarea`
 margin-top: 10px;
 width: 100%;
@@ -31,4 +36,18 @@ border-width: 1px;
 background: white;
 cursor: pointer;
 }
+`;
+const ButtonParams = `
+border: none;
+margin-left: 20px;
+border-radius: 10px;
+padding:5px`;
+export  const EditButton = styled.button`
+background: green;
+${ButtonParams}
+`;
+export  const DeleteButton = styled.button`
+background: #9b0000;
+${ButtonParams}
+
 `;
