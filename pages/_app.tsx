@@ -2,15 +2,17 @@ import React from "react";
 import App, {AppContext} from "next/app";
 import withRedux, {MakeStore, ReduxWrapperAppProps} from "next-redux-wrapper";
 import {DefaultTheme, ThemeProvider} from "styled-components";
-import {createStore} from "redux";
+import {applyMiddleware, createStore} from "redux";
 import {reducers, RootState} from "../reducers/store";
 import {Provider} from "react-redux";
+import thunkMiddleware, {ThunkMiddleware} from "redux-thunk";
+import {ActionsTypes} from "../reducers/PostsReducer";
 
 /**
  * @param initialState The store"s initial state (on the client side, the state of the server-side store is passed here)
  */
 const makeStore: MakeStore = (initialState: RootState) => {
-    return createStore(reducers, initialState);
+    return createStore(reducers, initialState,  applyMiddleware(thunkMiddleware as ThunkMiddleware<RootState, ActionsTypes>))
 };
 
 const theme: DefaultTheme = {

@@ -4,9 +4,10 @@ import Header from "../components/Headers/Headers";
 import {NextPage} from "next";
 import GlobalStyle from "./GlobalStyle";
 import PostsContainer from "../components/Posts/PostsContainer";
+import {getPost} from "../reducers/PostsReducer";
 
 
-const Home: NextPage<{ foo: string }> = () => {
+const Home: NextPage = () => {
 
     return (
         <div className="container">
@@ -20,14 +21,15 @@ const Home: NextPage<{ foo: string }> = () => {
         </div>)
 };
 
-// Home.getInitialProps = ({ store, isServer }) => {
-//     if (isServer) {
-//         // Do some staff
-//     }
-//
-//    // store.dispatch({ type: 'POST_ADD', payload: 'foo' }); // The component can read from the store's state when rendered
-//
-//     return { foo: ""}; // You can pass some custom props to the component from here
-// };
+Home.getInitialProps = ({ store, isServer }) => {
+    if (isServer) {
+        // Do some staff
+    }
+
+    // @ts-ignore
+ store.dispatch(getPost());
+
+    return { }; // You can pass some custom props to the component from here
+};
 
 export default Home;

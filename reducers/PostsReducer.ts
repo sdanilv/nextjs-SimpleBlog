@@ -1,30 +1,36 @@
-const POSTS_GET = "POSTS/POSTS_GET";
+import {ThunkAction} from "redux-thunk";
+import {RootState} from "./store";
+import {PostsApi} from "../api/api";
+
+const LOAD_POSTS = "POSTS/LOAD_POSTS";
 const POST_ADD = "POSTS/POST_ADD";
 const POST_DELETE = "POSTS/POST_DELETE";
 const POST_RETRIEVE = "POSTS/POST_GET";
 const COMMENT_ADD = "POSTS/COMMENT_ADD";
 
-type Action <T, K = {}> = { type: T } & K;
+type Action<T, K = {}> = { type: T } & K;
 
 
-export type Comment = { id: number, postId: number, body: string }
+export type Comment = { id: string, postId: string, body: string }
 export type PostType = {
-    readonly id: number,
+    readonly id: string,
     title: string,
     body: string
     comments?: Array<Comment>
 }
 
-type ActionsTypes = Action<typeof POSTS_GET, { posts: Array<PostType> }> |
+export type ActionsTypes = Action<typeof LOAD_POSTS, { posts: Array<PostType> }> |
     Action<typeof POST_ADD, { post: PostType }> |
-    Action<typeof POST_DELETE, { id: number }> |
-    Action<typeof POST_RETRIEVE, { id: number, comments: Array<Comment> }> |
-    Action<typeof COMMENT_ADD, { id: number, comment: Comment }>
+    Action<typeof POST_DELETE, { id: string }> |
+    Action<typeof POST_RETRIEVE, { id: string, comments: Array<Comment> }> |
+    Action<typeof COMMENT_ADD, { id: string, comment: Comment }>
+type ThunkActionType = ThunkAction<void, RootState, {}, ActionsTypes>;
+
 
 export const initialPostsState = {posts: []};
 export const postsReducer = (state = initialPostsState, action: ActionsTypes) => {
     switch (action.type) {
-        case POSTS_GET:
+        case LOAD_POSTS:
             return {...state, posts: action.posts};
         case POST_ADD:
             return {...state, posts: [...state.posts, action.post]};
@@ -50,3 +56,10 @@ export const postsReducer = (state = initialPostsState, action: ActionsTypes) =>
             return state
     }
 };
+
+const getPostsAC = (posts: Array<PostType>): ActionsTypes => ({type: LOAD_POSTS, posts});
+export  const getPost = (): ThunkActionType => async (dispatch) => {
+    const posts = await PostsApi.getPosts();
+    dispatch(getPostsAC(posts));
+};
+
