@@ -43,11 +43,11 @@ margin-left: 20px;
 border-radius: 10px;
 padding:5px`;
 export  const EditButton = styled.button`
-background: green;
+background: rgba(0,128,0,0.41);
 ${ButtonParams}
 `;
 export  const DeleteButton = styled.button`
-background: #9b0000;
+background: rgba(155,0,0,0.43);
 ${ButtonParams}
 
 `;
