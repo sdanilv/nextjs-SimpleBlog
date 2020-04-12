@@ -1,10 +1,4 @@
-import React, {FC, useState} from "react";
-
-import Router from "next/router";
-
-import {PostType} from "../../../reducers/PostsReducer";
-import styled from "styled-components";
-import {AddPostButton, NewPostBody, NewPostTitle, NewStyledPost} from "./NewPostStyled";
+import React, {FC} from "react";
 import TemplatePost from "../PostTamplate/TemplatePost";
 
 

@@ -1,11 +1,9 @@
 import React, {FC} from "react";
-import {HeaderLogo, HeaderMenu, HeaderTitle, StyledHeader} from "./HeadersStyled";
+import {HeaderLogo, HeaderMenu, HeaderTitle, StyledHeader} from "./HeadersStyles";
 import Link from "next/link";
-
 
  const Header : FC = () =>
      {
-
          return <StyledHeader>
         <Link href={"/"}><a><HeaderLogo src="logo.ico " alt="logo"/>
             <HeaderTitle>Simple Blog</HeaderTitle></a></Link>
@@ -13,7 +11,6 @@ import Link from "next/link";
             <div><Link href={"/"}><a>Read</a></Link></div>
             <div><Link href={"/posts/new"}><a>Write</a></Link></div>
         </HeaderMenu>
-
     </StyledHeader>
     };
 

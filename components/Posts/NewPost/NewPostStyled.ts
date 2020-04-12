@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const NewStyledPost = styled.div`
 margin: 30px auto;
 max-width: 500px;

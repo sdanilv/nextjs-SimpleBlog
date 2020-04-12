@@ -3,13 +3,11 @@ import PostWithCommentContainer from "../../components/Posts/PostWithComment/Pos
 import {useRouter} from "next/router";
 import {NextPage} from "next";
 
-
 const PostPage: NextPage = () => {
 
     const router = useRouter();
     const postId = router.query.postId as string;
-    return (<>
-        < PostWithCommentContainer id={postId}/></>)
+    return  <PostWithCommentContainer id={postId}/>
 };
 
 export default PostPage;

@@ -1,17 +1,14 @@
 import React, {FC} from "react";
-import styled from "styled-components";
+
 import Post from "./Post/Post";
 import {PostType} from "../../reducers/PostsReducer";
+import {PostsDivContainer} from "./PostsStyles";
 
-const PostsContainer = styled.div`
-width:100%;
-
-`;
 
 const PostsComponent :FC<{posts: Array<PostType>}>  = ({posts}) => {
-    return <PostsContainer>
+    return <PostsDivContainer>
         {posts.map(post => <Post key={post.id} id={post.id} title={post.title} body={post.body} />)}
-    </PostsContainer>
+    </PostsDivContainer>
 };
 
 export default PostsComponent;

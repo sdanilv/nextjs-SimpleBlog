@@ -11,7 +11,6 @@ const PostsContainer: FC<any> = () => {
         dispatch(getPost());
     }, []);
 
-
     const posts = useSelector<RootState, Array<PostType>>((state) => state.Posts.posts);
 
     return <PostsComponent posts={posts}/>

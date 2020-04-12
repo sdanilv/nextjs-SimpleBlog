@@ -10,9 +10,7 @@ import Header from "../components/Headers/Headers";
 /**
  * @param initialState The store"s initial state (on the client side, the state of the server-side store is passed here)
  */
-// const makeStore: MakeStore = (initialState: RootState) => {
-//     return createStore(reducers, initialState,  applyMiddleware(thunkMiddleware as ThunkMiddleware<RootState, ActionsTypes>))
-// };
+
 
 class MyApp extends App<ReduxWrapperAppProps<RootState>> {
     static async getInitialProps({Component, ctx}: AppContext) {
