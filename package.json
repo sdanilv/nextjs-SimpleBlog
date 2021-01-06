@@ -10,7 +10,7 @@
   "dependencies": {
     "@types/next-redux-wrapper": "^3.0.0",
     "@types/redux-thunk": "^2.1.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "next": "9.3.4",
     "next-redux-wrapper": "^5.0.0",
     "react": "16.13.1",
